@@ -23,13 +23,22 @@ function placeStarOfDavidInCanvas(width, height) {
   const starMatrixHeight = starMatrix.length;
   const starMatrixWidth = starMatrix[Math.floor(starMatrixHeight / 2)].length;
 
+  console.log(
+    "%cStar Matrix Dimensions:",
+    "color: blue;",
+    starMatrixWidth,
+    starMatrixHeight
+  );
+
   const startX = Math.floor((width - starMatrixWidth) / 2);
   const startY = Math.floor((height - starMatrixHeight) / 2);
+
+  console.log("Start Position:", startX, startY);
 
   for (let i = 0; i < starMatrix.length; i++) {
     const row = starMatrix[i];
     for (let j = 0; j < row.length; j++) {
-      if (row[j] === "*" || row[j] === "0") {
+      if (row[j] === "*" || row[j] === "*") {
         const canvasRowIndex = startY + i;
         const canvasColIndex = startX + j;
         if (
@@ -100,7 +109,7 @@ function generateMiddleSection(matrix, height, width, spaceWidth) {
       if (i === 0 || j === i || j === width - i - 1) {
         row += "*";
       } else if (j === width - i - 1 || i === 0) {
-        row += "0";
+        row += "*";
       } else {
         row += " ";
       }
@@ -114,7 +123,7 @@ function generateMiddleSection(matrix, height, width, spaceWidth) {
       if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
         row += "*";
       } else if (j === height + i - 1 || i === height - 1) {
-        row += "0";
+        row += "*";
       } else {
         row += " ";
       }
@@ -125,7 +134,7 @@ function generateMiddleSection(matrix, height, width, spaceWidth) {
       if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
         row += "*";
       } else if (j === height - i - 1 || i === height - 1) {
-        row += "0";
+        row += "*";
       } else {
         row += " ";
       }
