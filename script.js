@@ -1,6 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./App.css";
-
 function createCanvas(width, height) {
   const canvas = [];
   for (let i = 0; i < height; i++) {
@@ -152,89 +149,33 @@ function generateLowerTriangles(matrix, height, width, spaceWidth) {
   }
 }
 
-const App = () => {
-  const [canvasWidth, setCanvasWidth] = useState(40);
-  const [canvasHeight, setCanvasHeight] = useState(20);
-  const [canvas, setCanvas] = useState([]);
-  const containerRef = useRef(null);
+function drawCanvas() {
+  const width = parseInt(document.getElementById("canvasWidth").value, 10);
+  const height = parseInt(document.getElementById("canvasHeight").value, 10);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const containerHeight = containerRef.current.offsetHeight;
+  const canvas = placeStarOfDavidInCanvas(width, height);
+  const canvasGrid = document.getElementById("canvasGrid");
 
-        const newCanvasWidth = Math.floor(containerWidth / 8);
-        const newCanvasHeight = Math.floor(containerHeight / 8);
+  const container = document.getElementById("canvasContainer");
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
 
-        setCanvasWidth(newCanvasWidth);
-        setCanvasHeight(newCanvasHeight);
-      }
-    };
+  const cellSize = Math.min(containerWidth / width, containerHeight / height);
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+  canvasGrid.innerHTML = "";
+  canvas.forEach((row) => {
+    const rowElement = document.createElement("div");
+    rowElement.className = "canvas-row";
+    row.split("").forEach((cell) => {
+      const cellElement = document.createElement("div");
+      cellElement.className = `canvas-cell ${cell === "*" ? "filled" : ""}`;
+      cellElement.style.width = `${cellSize}px`;
+      cellElement.style.height = `${cellSize}px`;
+      rowElement.appendChild(cellElement);
+    });
+    canvasGrid.appendChild(rowElement);
+  });
+}
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const generatedCanvas = placeStarOfDavidInCanvas(canvasWidth, canvasHeight);
-    setCanvas(generatedCanvas);
-  }, [canvasWidth, canvasHeight]);
-
-  const cellSize = Math.min(
-    containerRef.current?.offsetWidth / canvasWidth || 0,
-    containerRef.current?.offsetHeight / canvasHeight || 0
-  );
-
-  return (
-    <div className="app">
-      <div className="controls">
-        <label>
-          Width:
-          <input
-            type="number"
-            value={canvasWidth}
-            onChange={(e) => setCanvasWidth(Number(e.target.value))}
-            min="10"
-            max="100"
-          />
-        </label>
-        <label>
-          Height:
-          <input
-            type="number"
-            value={canvasHeight}
-            onChange={(e) => setCanvasHeight(Number(e.target.value))}
-            min="10"
-            max="100"
-          />
-        </label>
-      </div>
-      <div
-        className="canvas-container"
-        ref={containerRef}
-        style={{ width: "80vw", height: "80vh" }}
-      >
-        <div className="canvas-grid">
-          {canvas.map((row, rowIndex) => (
-            <div className="canvas-row" key={rowIndex}>
-              {row.split("").map((cell, cellIndex) => (
-                <div
-                  key={cellIndex}
-                  className={`canvas-cell ${cell === "*" ? "filled" : ""}`}
-                  style={{ width: cellSize, height: cellSize }}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+document.getElementById("canvasWidth").addEventListener("input", drawCanvas);
+document.getElementById("canvasHeight").addEventListener("input", drawCanvas);
