@@ -150,8 +150,12 @@ function generateLowerTriangles(matrix, height, width, spaceWidth) {
 }
 
 function drawCanvas() {
-  const width = parseInt(document.getElementById("canvasWidth").value, 10);
-  const height = parseInt(document.getElementById("canvasHeight").value, 10);
+  let width = parseInt(document.getElementById("canvasWidth").value, 10);
+  let height = parseInt(document.getElementById("canvasHeight").value, 10);
+
+  // Ensure the width and height do not exceed the maximum values
+  if (width > 400) width = 400;
+  if (height > 200) height = 200;
 
   const canvas = placeStarOfDavidInCanvas(width, height);
   const canvasGrid = document.getElementById("canvasGrid");
@@ -179,3 +183,8 @@ function drawCanvas() {
 
 document.getElementById("canvasWidth").addEventListener("input", drawCanvas);
 document.getElementById("canvasHeight").addEventListener("input", drawCanvas);
+
+window.addEventListener("resize", drawCanvas);
+
+// Initial draw
+drawCanvas();
