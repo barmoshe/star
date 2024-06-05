@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function createCanvas(width, height) {
@@ -156,39 +156,11 @@ const App = () => {
   const [canvasWidth, setCanvasWidth] = useState(40);
   const [canvasHeight, setCanvasHeight] = useState(20);
   const [canvas, setCanvas] = useState([]);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const containerHeight = containerRef.current.offsetHeight;
-
-        const newCanvasWidth = Math.floor(containerWidth / 8);
-        const newCanvasHeight = Math.floor(containerHeight / 8);
-
-        setCanvasWidth(newCanvasWidth);
-        setCanvasHeight(newCanvasHeight);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const generatedCanvas = placeStarOfDavidInCanvas(canvasWidth, canvasHeight);
     setCanvas(generatedCanvas);
   }, [canvasWidth, canvasHeight]);
-
-  const cellSize = Math.min(
-    containerRef.current?.offsetWidth / canvasWidth || 0,
-    containerRef.current?.offsetHeight / canvasHeight || 0
-  );
 
   return (
     <div className="app">
@@ -214,11 +186,7 @@ const App = () => {
           />
         </label>
       </div>
-      <div
-        className="canvas-container"
-        ref={containerRef}
-        style={{ width: "80vw", height: "80vh" }}
-      >
+      <div className="canvas-container">
         <div className="canvas-grid">
           {canvas.map((row, rowIndex) => (
             <div className="canvas-row" key={rowIndex}>
@@ -226,7 +194,6 @@ const App = () => {
                 <div
                   key={cellIndex}
                   className={`canvas-cell ${cell === "*" ? "filled" : ""}`}
-                  style={{ width: cellSize, height: cellSize }}
                 />
               ))}
             </div>
