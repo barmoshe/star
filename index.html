@@ -13,34 +13,39 @@
           <li><a href="#canvasPage" class="nav-link active">Canvas Page</a></li>
           <li><a href="#matrixPage" class="nav-link">Matrix Page</a></li>
           <li><a href="#codeEditorPage" class="nav-link">Code view</a></li>
-          <li><button id="startButton">Start</button></li>
+          <li><button id="startButton">Draw Star</button></li>
         </ul>
       </nav>
     </header>
     <main>
       <div id="loader" class="hidden"></div>
+      <section id="instructions" class="page">
+        <h2>Instructions:</h2>
+        <p>
+          Adjust the width and height of the canvas using the inputs below. Then
+          click "Draw Star" to generate the Star of David.
+        </p>
+      </section>
       <section id="canvasPage" class="page">
         <div class="controls">
-          <label>
-            Width:
-            <input
-              type="number"
-              id="canvasWidth"
-              min="10"
-              max="400"
-              value="400"
-            />
-          </label>
-          <label>
-            Height:
-            <input
-              type="number"
-              id="canvasHeight"
-              min="10"
-              max="200"
-              value="200"
-            />
-          </label>
+          <label for="canvasWidth">Width:</label>
+          <input
+            type="number"
+            id="canvasWidth"
+            min="10"
+            max="400"
+            value="400"
+            placeholder="Enter width (10-400)"
+          />
+          <label for="canvasHeight">Height:</label>
+          <input
+            type="number"
+            id="canvasHeight"
+            min="10"
+            max="200"
+            value="200"
+            placeholder="Enter height (10-200)"
+          />
         </div>
         <div class="canvas-container" id="canvasContainer">
           <div class="canvas-grid" id="canvasGrid"></div>
@@ -210,7 +215,8 @@
                   }
                   if (i !== 0) matrix.push(row);
                 }
-              }          </pre
+              }      
+        </pre
           >
         </div>
       </section>

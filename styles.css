@@ -70,6 +70,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   flex-grow: 1;
   padding: 20px;
 }
@@ -165,7 +166,7 @@ main {
   color: white;
 }
 
-#matrixDisplay {
+xDisplay {
   white-space: pre-wrap; /* Ensures line breaks are respected */
   font-family: monospace; /* Uses a monospace font */
   color: white;
@@ -232,4 +233,36 @@ main {
 
 .hidden {
   display: none;
+}
+/* Additional styles for instructional section */
+#instructions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#instructions h2 {
+  margin-bottom: 10px;
+}
+
+#instructions p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Styles for labels and inputs */
+.controls label {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.controls input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.controls input:focus {
+  border-color: #00d4ff;
 }
