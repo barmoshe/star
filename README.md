@@ -1,6 +1,10 @@
 # Star of David Canvas Project
 
+<img width="1680" alt="image" src="https://github.com/barmoshe/star/assets/7868565/8bd33766-e143-4bbd-bf34-46f8958d504f">
 
+
+deployed website : https://barmoshe.github.io/star/
+you can try it in mobile also :) 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Features](#features)
