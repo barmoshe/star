@@ -1,3 +1,12 @@
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
+
 function createCanvas(width, height) {
   const canvas = [];
   for (let i = 0; i < height; i++) {
@@ -188,12 +197,37 @@ function drawCanvas() {
     });
     canvasGrid.appendChild(rowElement);
   });
+
+  // Display the matrix in the matrixPage
+  const matrixDisplay = document.getElementById("matrixDisplay");
+  matrixDisplay.textContent = canvas.join("\n");
 }
 
-document.getElementById("canvasWidth").addEventListener("input", drawCanvas);
-document.getElementById("canvasHeight").addEventListener("input", drawCanvas);
+const debouncedDrawCanvas = debounce(drawCanvas, 300);
+
+document.getElementById("startButton").addEventListener("click", drawCanvas);
+// document
+//   .getElementById("canvasWidth")
+//   .addEventListener("input", debouncedDrawCanvas);
+// document
+//   .getElementById("canvasHeight")
+//   .addEventListener("input", debouncedDrawCanvas);
 
 window.addEventListener("resize", drawCanvas);
 
-// Initial draw
-drawCanvas();
+// Navigation logic
+document.querySelectorAll("nav a").forEach((link) => {
+  link.addEventListener("click", function (event) {
+    event.preventDefault();
+    document.querySelectorAll("main").forEach((page) => {
+      page.classList.add("hidden");
+    });
+    const targetPage = document.querySelector(this.getAttribute("href"));
+    targetPage.classList.remove("hidden");
+  });
+});
+
+// Initialize Ace Editor
+const editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/javascript");

@@ -5,21 +5,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Star of David Canvas</title>
     <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"
+      integrity="sha512-HrXJxgw2enRGVPOswlhR0MMNRKUTjiUuPpeUkpsCK+iIHygc1H8td6K2BlSxvYV0ORRoc1u2KPASykQfSCll1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body>
-    <div class="controls">
-      <label>
-        Width:
-        <input type="number" id="canvasWidth" min="10" max="400" value="40" />
-      </label>
-      <label>
-        Height:
-        <input type="number" id="canvasHeight" min="10" max="200" value="20" />
-      </label>
-    </div>
-    <div class="canvas-container" id="canvasContainer">
-      <div class="canvas-grid" id="canvasGrid"></div>
-    </div>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#canvasPage">Canvas Page</a></li>
+          <li><a href="#matrixPage">Matrix Page</a></li>
+          <li><a href="#codeEditorPage">Code Editor</a></li>
+          <li>
+            <button id="startButton">Start</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="canvasPage">
+      <div class="controls">
+        <label>
+          Width:
+          <input type="number" id="canvasWidth" min="10" max="400" value="40" />
+        </label>
+        <label>
+          Height:
+          <input
+            type="number"
+            id="canvasHeight"
+            min="10"
+            max="200"
+            value="20"
+          />
+        </label>
+      </div>
+      <div class="canvas-container" id="canvasContainer">
+        <div class="canvas-grid" id="canvasGrid"></div>
+      </div>
+    </main>
+    <main id="matrixPage" class="hidden">
+      <pre id="matrixDisplay"></pre>
+    </main>
+    <main id="codeEditorPage" class="hidden">
+      <div id="editor">
+        <pre>
+            function createCanvas(width, height) {
+                const canvas = [];
+                for (let i = 0; i < height; i++) {
+                  let row = "";
+                  for (let j = 0; j < width; j++) {
+                    if (i < height / 10 || i >= (height * 9) / 10) row += "*";
+                    else row += ` `;
+                  }
+                  canvas.push(row);
+                }
+                return canvas;
+              }
+              
+              function placeStarOfDavidInCanvas(width, height) {
+                if (width < 10 || height < 10) {
+                  width = 10;
+                  height = 10;
+                }
+                const canvas = createCanvas(width, height);
+                const starHeight = Math.min(Math.floor(width / 4), Math.floor(height / 4));
+                const starMatrix = generateStarOfDavid(starHeight);
+              
+                const starMatrixHeight = starMatrix.length;
+                const starMatrixWidth = starMatrix[Math.floor(starMatrixHeight / 2)].length;
+              
+                console.log(
+                  "%cStar Matrix Dimensions:",
+                  "color: blue;",
+                  starMatrixWidth,
+                  starMatrixHeight
+                );
+              
+                const startX = Math.floor((width - starMatrixWidth) / 2);
+                const startY = Math.floor((height - starMatrixHeight) / 2);
+              
+                console.log("Start Position:", startX, startY);
+              
+                for (let i = 0; i < starMatrix.length; i++) {
+                  const row = starMatrix[i];
+                  for (let j = 0; j < row.length; j++) {
+                    if (row[j] === "*" || row[j] === "*") {
+                      const canvasRowIndex = startY + i;
+                      const canvasColIndex = startX + j;
+                      if (
+                        canvasRowIndex >= 0 &&
+                        canvasRowIndex < height &&
+                        canvasColIndex >= 0 &&
+                        canvasColIndex < width
+                      ) {
+                        canvas[canvasRowIndex] = replaceCharAt(
+                          canvas[canvasRowIndex],
+                          canvasColIndex,
+                          row[j]
+                        );
+                      }
+                    }
+                  }
+                }
+              
+                return canvas;
+              }
+              
+              function replaceCharAt(str, index, char) {
+                if (index > str.length - 1) return str;
+                return str.substring(0, index) + char + str.substring(index + 1);
+              }
+              
+              function generateStarOfDavid(height) {
+                if (height < 4) height = 4;
+                height = Math.floor(height / 2);
+                const width = 2 * height - 1;
+                const spaceWidth = width;
+                const matrix = [];
+              
+                generateUpperTriangles(matrix, height, width, spaceWidth);
+                generateMiddleSection(matrix, height, width, spaceWidth);
+                generateLowerTriangles(matrix, height, width, spaceWidth);
+                return matrix;
+              }
+              
+              function generateUpperTriangles(matrix, height, width, spaceWidth) {
+                for (let i = 0; i < height; i++) {
+                  let row = "";
+                  row += " ".repeat(spaceWidth);
+                  for (let j = 0; j < width; j++) {
+                    if (i === height - 1 || j === height - i - 1 || j === height + i - 1) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  if (i !== height - 1) matrix.push(row);
+                }
+              }
+              
+              function generateMiddleSection(matrix, height, width, spaceWidth) {
+                for (let i = 0; i < height; i++) {
+                  let row = "";
+                  for (let j = 0; j < width; j++) {
+                    if (j === width - i - 1 || i === 0 || j === i) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  if (i === 0) row += "*".repeat(spaceWidth);
+                  else row += " ".repeat(spaceWidth);
+                  for (let j = 0; j < width; j++) {
+                    if (i === 0 || j === i || j === width - i - 1) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  matrix.push(row);
+                }
+              
+                for (let i = 1; i < height; i++) {
+                  let row = "";
+                  for (let j = 0; j < width; j++) {
+                    if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  if (i !== height - 1) row += " ".repeat(spaceWidth);
+                  else row += "*".repeat(spaceWidth);
+                  for (let j = 0; j < width; j++) {
+                    if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  matrix.push(row);
+                }
+              }
+              
+              function generateLowerTriangles(matrix, height, width, spaceWidth) {
+                for (let i = 0; i < height; i++) {
+                  let row = "";
+                  row += " ".repeat(spaceWidth);
+                  for (let j = 0; j < width; j++) {
+                    if (i === 0 || j === i || j === width - i - 1) {
+                      row += "*";
+                    } else {
+                      row += " ";
+                    }
+                  }
+                  if (i !== 0) matrix.push(row);
+                }
+              }        </pre
+        >
+      </div>
+    </main>
 
     <script src="script.js"></script>
   </body>
