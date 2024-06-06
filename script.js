@@ -228,12 +228,15 @@ const debouncedDrawCanvas = debounce(drawCanvas, 100);
 
 document.getElementById("startButton").addEventListener("click", drawCanvas);
 
-window.addEventListener("resize", drawCanvas);
-
-// Navigation logic
+// Add active class to the current nav link
 document.querySelectorAll("nav a").forEach((link) => {
   link.addEventListener("click", function (event) {
     event.preventDefault();
+    document.querySelectorAll("nav a").forEach((navLink) => {
+      navLink.classList.remove("active");
+    });
+    this.classList.add("active");
+
     document.querySelectorAll("main > section").forEach((page) => {
       page.classList.add("hidden");
     });
