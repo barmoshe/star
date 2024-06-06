@@ -169,6 +169,12 @@ main {
   background-color: #272822;
   padding: 10px;
   border-radius: 5px;
+  height: 65vh;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  text-justify: distribute;
 }
 
 /* Responsive Styles */

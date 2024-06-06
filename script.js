@@ -182,8 +182,8 @@ function drawCanvas() {
     let height = parseInt(document.getElementById("canvasHeight").value, 10);
 
     // Ensure the width and height do not exceed the maximum values
-    if (width > 400) width = 400;
-    if (height > 200) height = 200;
+    if (width > 1000) width = 1000;
+    if (height > 1000) height = 1000;
 
     const canvas = placeStarOfDavidInCanvas(width, height);
     //log the canvas
@@ -217,14 +217,14 @@ function drawCanvas() {
     matrixDisplay.textContent = canvas.join("\n");
 
     // Adjust font size based on matrix size
-    const fontSize = Math.min(16, 300 / height);
+    const fontSize = Math.min(20, width / height);
     matrixDisplay.style.fontSize = `${fontSize}px`;
 
     hideLoader();
   }, 1000);
 }
 
-const debouncedDrawCanvas = debounce(drawCanvas, 300);
+const debouncedDrawCanvas = debounce(drawCanvas, 100);
 
 document.getElementById("startButton").addEventListener("click", drawCanvas);
 
@@ -241,11 +241,6 @@ document.querySelectorAll("nav a").forEach((link) => {
     targetPage.classList.remove("hidden");
   });
 });
-
-// Initialize Ace Editor
-const editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-editor.session.setMode("ace/mode/javascript");
 
 function init() {
   drawCanvas();
