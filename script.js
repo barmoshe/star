@@ -219,7 +219,7 @@ window.addEventListener("resize", drawCanvas);
 document.querySelectorAll("nav a").forEach((link) => {
   link.addEventListener("click", function (event) {
     event.preventDefault();
-    document.querySelectorAll("main").forEach((page) => {
+    document.querySelectorAll("main > section").forEach((page) => {
       page.classList.add("hidden");
     });
     const targetPage = document.querySelector(this.getAttribute("href"));

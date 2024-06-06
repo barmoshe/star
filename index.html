@@ -25,34 +25,42 @@
         </ul>
       </nav>
     </header>
-    <main id="canvasPage">
-      <div class="controls">
-        <label>
-          Width:
-          <input type="number" id="canvasWidth" min="10" max="400" value="40" />
-        </label>
-        <label>
-          Height:
-          <input
-            type="number"
-            id="canvasHeight"
-            min="10"
-            max="200"
-            value="20"
-          />
-        </label>
-      </div>
-      <div class="canvas-container" id="canvasContainer">
-        <div class="canvas-grid" id="canvasGrid"></div>
-      </div>
-    </main>
-    <main id="matrixPage" class="hidden">
-      <pre id="matrixDisplay"></pre>
-    </main>
-    <main id="codeEditorPage" class="hidden">
-      <div id="editor">
-        <pre>          here will be long code       </pre>
-      </div>
+    <main>
+      <section id="canvasPage" class="page">
+        <div class="controls">
+          <label>
+            Width:
+            <input
+              type="number"
+              id="canvasWidth"
+              min="10"
+              max="400"
+              value="40"
+            />
+          </label>
+          <label>
+            Height:
+            <input
+              type="number"
+              id="canvasHeight"
+              min="10"
+              max="200"
+              value="20"
+            />
+          </label>
+        </div>
+        <div class="canvas-container" id="canvasContainer">
+          <div class="canvas-grid" id="canvasGrid"></div>
+        </div>
+      </section>
+      <section id="matrixPage" class="page hidden">
+        <pre id="matrixDisplay"></pre>
+      </section>
+      <section id="codeEditorPage" class="page hidden">
+        <div id="editor">
+          <pre>          here will be long code       </pre>
+        </div>
+      </section>
     </main>
     <script src="script.js"></script>
   </body>
