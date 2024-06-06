@@ -133,6 +133,7 @@ main {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
 }
 
 .canvas-grid {
@@ -153,6 +154,7 @@ main {
   background-color: #007bff;
   transform: scale(1.2);
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+  border-radius: 25%;
 }
 
 #editor {
