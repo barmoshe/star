@@ -21,7 +21,7 @@ This project generates a Star of David on a canvas element, represents the Israe
 - **Dynamic Canvas Resizing:** Adjust the canvas width and height.
 - **Star of David Generation:** Draw a Star of David based on user-defined dimensions.
 - **Matrix View:** Displays the console output of the canvas matrix.
-- **Code View:** Shows the code logic in an Ace Editor.
+- **Code View:** Shows the code that creates the Flag.
 - **Responsive Design:** Ensures a good user experience on different devices.
 
 ## Installation
