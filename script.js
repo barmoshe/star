@@ -7,6 +7,14 @@ function debounce(func, wait) {
   };
 }
 
+function showLoader() {
+  document.getElementById("loader").classList.remove("hidden");
+}
+
+function hideLoader() {
+  document.getElementById("loader").classList.add("hidden");
+}
+
 function createCanvas(width, height) {
   const canvas = [];
   for (let i = 0; i < height; i++) {
@@ -168,50 +176,57 @@ function generateLowerTriangles(matrix, height, width, spaceWidth) {
 }
 
 function drawCanvas() {
-  let width = parseInt(document.getElementById("canvasWidth").value, 10);
-  let height = parseInt(document.getElementById("canvasHeight").value, 10);
+  showLoader();
+  setTimeout(() => {
+    let width = parseInt(document.getElementById("canvasWidth").value, 10);
+    let height = parseInt(document.getElementById("canvasHeight").value, 10);
 
-  // Ensure the width and height do not exceed the maximum values
-  if (width > 400) width = 400;
-  if (height > 200) height = 200;
+    // Ensure the width and height do not exceed the maximum values
+    if (width > 400) width = 400;
+    if (height > 200) height = 200;
 
-  const canvas = placeStarOfDavidInCanvas(width, height);
-  const canvasGrid = document.getElementById("canvasGrid");
-
-  const container = document.getElementById("canvasContainer");
-  const containerWidth = container.offsetWidth;
-  const containerHeight = container.offsetHeight;
-
-  const cellSize = Math.min(containerWidth / width, containerHeight / height);
-
-  canvasGrid.innerHTML = "";
-  canvas.forEach((row) => {
-    const rowElement = document.createElement("div");
-    rowElement.className = "canvas-row";
-    row.split("").forEach((cell) => {
-      const cellElement = document.createElement("div");
-      cellElement.className = `canvas-cell ${cell === "*" ? "filled" : ""}`;
-      cellElement.style.width = `${cellSize}px`;
-      cellElement.style.height = `${cellSize}px`;
-      rowElement.appendChild(cellElement);
+    const canvas = placeStarOfDavidInCanvas(width, height);
+    //log the canvas
+    canvas.forEach((row) => {
+      console.log(row);
     });
-    canvasGrid.appendChild(rowElement);
-  });
+    const canvasGrid = document.getElementById("canvasGrid");
 
-  // Display the matrix in the matrixPage
-  const matrixDisplay = document.getElementById("matrixDisplay");
-  matrixDisplay.textContent = canvas.join("\n");
+    const container = document.getElementById("canvasContainer");
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    const cellSize = Math.min(containerWidth / width, containerHeight / height);
+
+    canvasGrid.innerHTML = "";
+    canvas.forEach((row) => {
+      const rowElement = document.createElement("div");
+      rowElement.className = "canvas-row";
+      row.split("").forEach((cell) => {
+        const cellElement = document.createElement("div");
+        cellElement.className = `canvas-cell ${cell === "*" ? "filled" : ""}`;
+        cellElement.style.width = `${cellSize}px`;
+        cellElement.style.height = `${cellSize}px`;
+        rowElement.appendChild(cellElement);
+      });
+      canvasGrid.appendChild(rowElement);
+    });
+
+    // Display the matrix in the matrixPage
+    const matrixDisplay = document.getElementById("matrixDisplay");
+    matrixDisplay.textContent = canvas.join("\n");
+
+    // Adjust font size based on matrix size
+    const fontSize = Math.min(16, 300 / height);
+    matrixDisplay.style.fontSize = `${fontSize}px`;
+
+    hideLoader();
+  }, 1000);
 }
 
 const debouncedDrawCanvas = debounce(drawCanvas, 300);
 
 document.getElementById("startButton").addEventListener("click", drawCanvas);
-document
-  .getElementById("canvasWidth")
-  .addEventListener("input", debouncedDrawCanvas);
-document
-  .getElementById("canvasHeight")
-  .addEventListener("input", debouncedDrawCanvas);
 
 window.addEventListener("resize", drawCanvas);
 
@@ -231,3 +246,7 @@ document.querySelectorAll("nav a").forEach((link) => {
 const editor = ace.edit("editor");
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/javascript");
+
+function init() {
+  drawCanvas();
+}

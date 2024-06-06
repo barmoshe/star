@@ -12,20 +12,20 @@
       referrerpolicy="no-referrer"
     ></script>
   </head>
-  <body>
+  <body onload="init()">
     <header>
       <nav>
         <ul>
           <li><a href="#canvasPage">Canvas Page</a></li>
           <li><a href="#matrixPage">Matrix Page</a></li>
-          <li><a href="#codeEditorPage">Code Editor</a></li>
-          <li>
-            <button id="startButton">Start</button>
-          </li>
+          <li><a href="#codeEditorPage">Code view</a></li>
+          <li><button id="startButton">Start</button></li>
         </ul>
       </nav>
     </header>
     <main>
+      <div id="loader" class="hidden"></div>
+      <!-- Loader element added here -->
       <section id="canvasPage" class="page">
         <div class="controls">
           <label>
@@ -58,7 +58,167 @@
       </section>
       <section id="codeEditorPage" class="page hidden">
         <div id="editor">
-          <pre>          here will be long code       </pre>
+          <pre>
+function createCanvas(width, height) {
+            const canvas = [];
+            for (let i = 0; i < height; i++) {
+              let row = "";
+              for (let j = 0; j < width; j++) {
+                if (i < height / 10 || i >= (height * 9) / 10) row += "*";
+                else row += ` `;
+              }
+              canvas.push(row);
+            }
+            return canvas;
+          }
+          
+          function placeStarOfDavidInCanvas(width, height) {
+            if (width < 10 || height < 10) {
+              width = 10;
+              height = 10;
+            }
+            const canvas = createCanvas(width, height);
+            const starHeight = Math.min(Math.floor(width / 4), Math.floor(height / 4));
+            const starMatrix = generateStarOfDavid(starHeight);
+          
+            const starMatrixHeight = starMatrix.length;
+            const starMatrixWidth = starMatrix[Math.floor(starMatrixHeight / 2)].length;
+          
+            console.log(
+              "%cStar Matrix Dimensions:",
+              "color: blue;",
+              starMatrixWidth,
+              starMatrixHeight
+            );
+          
+            const startX = Math.floor((width - starMatrixWidth) / 2);
+            const startY = Math.floor((height - starMatrixHeight) / 2);
+          
+            console.log("Start Position:", startX, startY);
+          
+            for (let i = 0; i < starMatrix.length; i++) {
+              const row = starMatrix[i];
+              for (let j = 0; j < row.length; j++) {
+                if (row[j] === "*" || row[j] === "*") {
+                  const canvasRowIndex = startY + i;
+                  const canvasColIndex = startX + j;
+                  if (
+                    canvasRowIndex >= 0 &&
+                    canvasRowIndex < height &&
+                    canvasColIndex >= 0 &&
+                    canvasColIndex < width
+                  ) {
+                    canvas[canvasRowIndex] = replaceCharAt(
+                      canvas[canvasRowIndex],
+                      canvasColIndex,
+                      row[j]
+                    );
+                  }
+                }
+              }
+            }
+          
+            return canvas;
+          }
+          
+          function replaceCharAt(str, index, char) {
+            if (index > str.length - 1) return str;
+            return str.substring(0, index) + char + str.substring(index + 1);
+          }
+          
+          function generateStarOfDavid(height) {
+            if (height < 4) height = 4;
+            height = Math.floor(height / 2);
+            const width = 2 * height - 1;
+            const spaceWidth = width;
+            const matrix = [];
+          
+            generateUpperTriangles(matrix, height, width, spaceWidth);
+            generateMiddleSection(matrix, height, width, spaceWidth);
+            generateLowerTriangles(matrix, height, width, spaceWidth);
+            return matrix;
+          }
+          
+          function generateUpperTriangles(matrix, height, width, spaceWidth) {
+            for (let i = 0; i < height; i++) {
+              let row = "";
+              row += " ".repeat(spaceWidth);
+              for (let j = 0; j < width; j++) {
+                if (i === height - 1 || j === height - i - 1 || j === height + i - 1) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              if (i !== height - 1) matrix.push(row);
+            }
+          }
+          
+          function generateMiddleSection(matrix, height, width, spaceWidth) {
+            for (let i = 0; i < height; i++) {
+              let row = "";
+              for (let j = 0; j < width; j++) {
+                if (j === width - i - 1 || i === 0 || j === i) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              if (i === 0) row += "*".repeat(spaceWidth);
+              else row += " ".repeat(spaceWidth);
+              for (let j = 0; j < width; j++) {
+                if (i === 0 || j === i || j === width - i - 1) {
+                  row += "*";
+                } else if (j === width - i - 1 || i === 0) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              matrix.push(row);
+            }
+          
+            for (let i = 1; i < height; i++) {
+              let row = "";
+              for (let j = 0; j < width; j++) {
+                if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
+                  row += "*";
+                } else if (j === height + i - 1 || i === height - 1) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              if (i !== height - 1) row += " ".repeat(spaceWidth);
+              else row += "*".repeat(spaceWidth);
+              for (let j = 0; j < width; j++) {
+                if (j === height - i - 1 || j === height + i - 1 || i === height - 1) {
+                  row += "*";
+                } else if (j === height - i - 1 || i === height - 1) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              matrix.push(row);
+            }
+          }
+          
+          function generateLowerTriangles(matrix, height, width, spaceWidth) {
+            for (let i = 0; i < height; i++) {
+              let row = "";
+              row += " ".repeat(spaceWidth);
+              for (let j = 0; j < width; j++) {
+                if (i === 0 || j === i || j === width - i - 1) {
+                  row += "*";
+                } else {
+                  row += " ";
+                }
+              }
+              if (i !== 0) matrix.push(row);
+            }
+          }</pre
+          >
         </div>
       </section>
     </main>
