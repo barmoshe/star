@@ -216,9 +216,14 @@ function drawCanvas() {
     const matrixDisplay = document.getElementById("matrixDisplay");
     matrixDisplay.textContent = canvas.join("\n");
 
-    // Adjust font size based on matrix size
-    const fontSize = Math.min(20, width / height);
-    matrixDisplay.style.fontSize = `${fontSize}px`;
+    // Adjust font size based on matrix height
+    const fontSize = Math.min(20, Math.max(5, Math.floor(1000 / height)));
+    //random blue color for the font b= 50-240 g=0-65 r=0-65
+    const fontColor = `rgb(${Math.floor(Math.random() * 65)}, ${Math.floor(
+      Math.random() * 65
+    )}, ${Math.floor(Math.random() * 190) + 50})`;
+    matrixDisplay.style.fontSize = `${fontSize / 2}px`;
+    matrixDisplay.style.color = fontColor;
 
     hideLoader();
   }, 1000);
