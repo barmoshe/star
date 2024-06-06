@@ -206,12 +206,12 @@ function drawCanvas() {
 const debouncedDrawCanvas = debounce(drawCanvas, 300);
 
 document.getElementById("startButton").addEventListener("click", drawCanvas);
-// document
-//   .getElementById("canvasWidth")
-//   .addEventListener("input", debouncedDrawCanvas);
-// document
-//   .getElementById("canvasHeight")
-//   .addEventListener("input", debouncedDrawCanvas);
+document
+  .getElementById("canvasWidth")
+  .addEventListener("input", debouncedDrawCanvas);
+document
+  .getElementById("canvasHeight")
+  .addEventListener("input", debouncedDrawCanvas);
 
 window.addEventListener("resize", drawCanvas);
 

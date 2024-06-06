@@ -24,6 +24,7 @@ nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 nav li {
@@ -126,5 +127,14 @@ button#startButton:hover {
   .controls label {
     width: 100%;
     text-align: center;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav li {
+    margin: 10px 0;
   }
 }
